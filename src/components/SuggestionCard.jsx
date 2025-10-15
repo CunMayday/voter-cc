@@ -1,6 +1,6 @@
 /**
- * Version: 2
- * Updated with Purdue colors, delete buttons, and improved comment expand/collapse
+ * Version: 3
+ * Improved button visibility and better Purdue color usage
  */
 import { useState } from 'react';
 
@@ -94,10 +94,10 @@ const SuggestionCard = ({ suggestion, currentUserId, onVote, onAddComment, onDel
         <div className="flex flex-col items-center gap-1">
           <button
             onClick={() => handleVote('up')}
-            className={`p-2 rounded-lg transition-colors ${
+            className={`p-2 rounded-lg transition-colors border-2 ${
               userVote === 'up'
-                ? 'bg-purdue-gold text-white'
-                : 'bg-purdue-gray/20 text-purdue-dark-gray hover:bg-purdue-athletic-gold hover:text-white'
+                ? 'bg-purdue-black text-purdue-gold border-purdue-gold'
+                : 'bg-white text-purdue-dark-gray border-purdue-gray hover:bg-purdue-athletic-gold/30 hover:border-purdue-gold'
             }`}
             title="Upvote"
           >
@@ -116,10 +116,10 @@ const SuggestionCard = ({ suggestion, currentUserId, onVote, onAddComment, onDel
 
           <button
             onClick={() => handleVote('down')}
-            className={`p-2 rounded-lg transition-colors ${
+            className={`p-2 rounded-lg transition-colors border-2 ${
               userVote === 'down'
-                ? 'bg-red-600 text-white'
-                : 'bg-purdue-gray/20 text-purdue-dark-gray hover:bg-red-100 hover:text-red-600'
+                ? 'bg-red-600 text-white border-red-700'
+                : 'bg-white text-purdue-dark-gray border-purdue-gray hover:bg-red-50 hover:border-red-300 hover:text-red-600'
             }`}
             title="Downvote"
           >
@@ -155,7 +155,7 @@ const SuggestionCard = ({ suggestion, currentUserId, onVote, onAddComment, onDel
           {/* Comments toggle - improved button */}
           <button
             onClick={() => setShowComments(!showComments)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-purdue-athletic-gold/20 hover:bg-purdue-athletic-gold/30 text-purdue-dark-gray rounded-lg transition-colors font-medium text-sm border border-purdue-gray/30"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-purdue-athletic-gold/30 text-purdue-black rounded-lg transition-colors font-semibold text-sm border-2 border-purdue-gold"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -214,35 +214,43 @@ const SuggestionCard = ({ suggestion, currentUserId, onVote, onAddComment, onDel
               )}
 
               {/* Add comment form */}
-              <form onSubmit={handleAddComment} className="space-y-2 bg-purdue-athletic-gold/10 p-3 rounded-lg">
-                <textarea
-                  value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="Add your comment..."
-                  className="w-full px-3 py-2 border border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-transparent outline-none resize-none"
-                  rows={2}
-                  disabled={isSubmittingComment}
-                  maxLength={500}
-                />
-
-                <div className="flex items-center gap-2">
-                  <select
-                    value={commentType}
-                    onChange={(e) => setCommentType(e.target.value)}
-                    className="px-3 py-2 border border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-transparent outline-none text-sm"
+              <form onSubmit={handleAddComment} className="space-y-3 bg-purdue-athletic-gold/10 p-4 rounded-lg border-2 border-purdue-gray">
+                <label className="block">
+                  <span className="text-sm font-semibold text-purdue-black mb-1 block">Write your comment:</span>
+                  <textarea
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    placeholder="Type your comment here..."
+                    className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none resize-none"
+                    rows={3}
                     disabled={isSubmittingComment}
-                  >
-                    <option value="neutral">Neutral</option>
-                    <option value="pro">Pro</option>
-                    <option value="con">Con</option>
-                  </select>
+                    maxLength={500}
+                  />
+                </label>
+
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                  <div className="flex-shrink-0">
+                    <label className="block">
+                      <span className="text-sm font-semibold text-purdue-black mb-1 block">Type:</span>
+                      <select
+                        value={commentType}
+                        onChange={(e) => setCommentType(e.target.value)}
+                        className="w-full sm:w-auto px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none text-sm font-medium"
+                        disabled={isSubmittingComment}
+                      >
+                        <option value="neutral">Neutral</option>
+                        <option value="pro">Pro (Positive)</option>
+                        <option value="con">Con (Negative)</option>
+                      </select>
+                    </label>
+                  </div>
 
                   <button
                     type="submit"
                     disabled={isSubmittingComment || commentText.trim().length < 1}
-                    className="bg-purdue-gold hover:bg-purdue-gold/90 disabled:bg-purdue-gray disabled:cursor-not-allowed text-white text-sm font-medium py-2 px-4 rounded-lg transition"
+                    className="flex-1 sm:flex-initial bg-purdue-black hover:bg-purdue-dark-gray disabled:bg-purdue-gray disabled:cursor-not-allowed text-purdue-gold font-bold py-3 px-6 rounded-lg transition border-2 border-purdue-gold shadow-md hover:shadow-lg text-base"
                   >
-                    {isSubmittingComment ? 'Adding...' : 'Add Comment'}
+                    {isSubmittingComment ? 'Submitting...' : '✓ Submit Comment'}
                   </button>
                 </div>
               </form>

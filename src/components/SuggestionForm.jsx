@@ -1,6 +1,6 @@
 /**
- * Version: 2
- * Updated with Purdue colors
+ * Version: 3
+ * Fixed button text visibility with better color contrast
  */
 import { useState } from 'react';
 
@@ -47,7 +47,7 @@ const SuggestionForm = ({ onSubmit, author }) => {
         <button
           type="submit"
           disabled={isSubmitting || text.trim().length < 3}
-          className="bg-purdue-gold hover:bg-purdue-gold/90 disabled:bg-purdue-gray disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg whitespace-nowrap"
+          className="bg-purdue-black hover:bg-purdue-dark-gray disabled:bg-purdue-gray disabled:cursor-not-allowed text-purdue-gold font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg whitespace-nowrap border-2 border-purdue-gold"
         >
           {isSubmitting ? 'Submitting...' : 'Add Suggestion'}
         </button>

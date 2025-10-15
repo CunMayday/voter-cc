@@ -1,6 +1,6 @@
 /**
- * Version: 2
- * Updated with Purdue colors and new title
+ * Version: 3
+ * Improved button visibility with better color contrast
  */
 import { useState } from 'react';
 
@@ -71,7 +71,7 @@ const UserLogin = ({ onLogin }) => {
 
           <button
             type="submit"
-            className="w-full bg-purdue-gold hover:bg-purdue-gold/90 text-white font-medium py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+            className="w-full bg-purdue-black hover:bg-purdue-dark-gray text-purdue-gold font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg border-2 border-purdue-gold"
           >
             Join Session
           </button>
