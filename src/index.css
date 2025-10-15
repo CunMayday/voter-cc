@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/**
+ * Version: 3
+ * Added Purdue University custom colors for Tailwind v4
+ */
+@theme {
+  --color-purdue-gold: #C28E0E;
+  --color-purdue-athletic-gold: #CEB888;
+  --color-purdue-black: #000000;
+  --color-purdue-gray: #9D968D;
+  --color-purdue-dark-gray: #373A36;
+}
+
 /* Custom scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
