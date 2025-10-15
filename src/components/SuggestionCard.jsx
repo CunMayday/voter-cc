@@ -1,6 +1,6 @@
 /**
- * Version: 4
- * Added edit functionality for suggestions and comments, display title/description
+ * Version: 5
+ * Enhanced with gold and black backgrounds per Purdue guidelines
  */
 import { useState } from 'react';
 
@@ -153,7 +153,7 @@ const SuggestionCard = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border-l-4 border-purdue-gold">
+    <div className="bg-purdue-athletic-gold rounded-lg shadow-xl p-6 hover:shadow-2xl transition-shadow border-4 border-purdue-gold">
       <div className="flex gap-4">
         {/* Voting buttons */}
         <div className="flex flex-col items-center gap-1">
@@ -198,7 +198,7 @@ const SuggestionCard = ({
         <div className="flex-1">
           {isEditingSuggestion ? (
             /* Edit mode */
-            <div className="space-y-3 mb-4 bg-purdue-athletic-gold/10 p-4 rounded-lg border-2 border-purdue-gold">
+            <div className="space-y-3 mb-4 bg-white p-4 rounded-lg border-2 border-purdue-black shadow-lg">
               <div>
                 <label className="block text-sm font-bold text-purdue-black mb-1">
                   Title <span className="text-red-600">*</span>
@@ -246,7 +246,7 @@ const SuggestionCard = ({
             /* View mode */
             <div className="mb-2">
               <div className="flex items-start justify-between gap-2 mb-2">
-                <h3 className="text-xl font-bold text-purdue-black flex-1">
+                <h3 className="text-xl font-bold text-purdue-black flex-1 drop-shadow-sm">
                   {suggestion.title || suggestion.text}
                 </h3>
                 <div className="flex gap-1 flex-shrink-0">
@@ -398,7 +398,7 @@ const SuggestionCard = ({
               )}
 
               {/* Add comment form */}
-              <form onSubmit={handleAddComment} className="space-y-3 bg-purdue-athletic-gold/10 p-4 rounded-lg border-2 border-purdue-gray">
+              <form onSubmit={handleAddComment} className="space-y-3 bg-white p-4 rounded-lg border-2 border-purdue-black shadow-lg">
                 <label className="block">
                   <span className="text-sm font-semibold text-purdue-black mb-1 block">Write your comment:</span>
                   <textarea

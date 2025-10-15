@@ -1,6 +1,6 @@
 /**
- * Version: 3
- * Improved button visibility with better color contrast
+ * Version: 4
+ * Enhanced with gold and black backgrounds per Purdue guidelines
  */
 import { useState } from 'react';
 
@@ -33,22 +33,22 @@ const UserLogin = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purdue-athletic-gold/20 to-purdue-gold/30 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full border-t-4 border-purdue-gold">
+    <div className="min-h-screen bg-gradient-to-br from-purdue-black via-purdue-dark-gray to-purdue-black flex items-center justify-center p-4">
+      <div className="bg-purdue-black rounded-2xl shadow-2xl p-8 max-w-md w-full border-4 border-purdue-gold">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-purdue-black mb-2">
+          <h1 className="text-4xl font-bold text-purdue-gold mb-2 drop-shadow-lg">
             Teaching Innovation Suggestions
           </h1>
-          <p className="text-purdue-dark-gray">
+          <p className="text-purdue-athletic-gold font-medium">
             Share ideas, vote, and collaborate
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 bg-purdue-athletic-gold p-6 rounded-xl">
           <div>
             <label
               htmlFor="displayName"
-              className="block text-sm font-medium text-purdue-dark-gray mb-2"
+              className="block text-sm font-bold text-purdue-black mb-2"
             >
               Enter your display name
             </label>
@@ -60,24 +60,24 @@ const UserLogin = ({ onLogin }) => {
                 setDisplayName(e.target.value);
                 setError('');
               }}
-              className="w-full px-4 py-3 border border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-transparent outline-none transition"
+              className="w-full px-4 py-3 border-2 border-purdue-black rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none transition bg-white text-purdue-black font-medium"
               placeholder="Your Name"
               autoFocus
             />
             {error && (
-              <p className="mt-2 text-sm text-red-600">{error}</p>
+              <p className="mt-2 text-sm text-red-700 font-bold">{error}</p>
             )}
           </div>
 
           <button
             type="submit"
-            className="w-full bg-purdue-black hover:bg-purdue-dark-gray text-purdue-gold font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg border-2 border-purdue-gold"
+            className="w-full bg-purdue-gold hover:bg-purdue-gold/90 text-purdue-black font-bold py-3 px-4 rounded-lg transition duration-200 shadow-xl hover:shadow-2xl border-2 border-purdue-black"
           >
             Join Session
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-purdue-gray">
+        <div className="mt-6 text-center text-sm text-purdue-athletic-gold">
           <p>Your votes and suggestions will be visible to the team</p>
         </div>
       </div>
