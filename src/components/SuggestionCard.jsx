@@ -1,6 +1,6 @@
 /**
- * Version: 3
- * Improved button visibility and better Purdue color usage
+ * Version: 4
+ * Added edit functionality for suggestions and comments, display title/description
  */
 import { useState } from 'react';
 
@@ -8,11 +8,30 @@ import { useState } from 'react';
  * SuggestionCard Component
  * Displays a single suggestion with voting buttons and comments
  */
-const SuggestionCard = ({ suggestion, currentUserId, onVote, onAddComment, onDeleteSuggestion, onDeleteComment }) => {
+const SuggestionCard = ({
+  suggestion,
+  currentUserId,
+  onVote,
+  onAddComment,
+  onDeleteSuggestion,
+  onDeleteComment,
+  onEditSuggestion,
+  onEditComment
+}) => {
   const [showComments, setShowComments] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [commentType, setCommentType] = useState('neutral');
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+
+  // Edit suggestion state
+  const [isEditingSuggestion, setIsEditingSuggestion] = useState(false);
+  const [editTitle, setEditTitle] = useState(suggestion.title || suggestion.text || '');
+  const [editDescription, setEditDescription] = useState(suggestion.description || '');
+
+  // Edit comment state
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editCommentText, setEditCommentText] = useState('');
+  const [editCommentType, setEditCommentType] = useState('neutral');
 
   // Check user's current vote
   const userVote = suggestion.votes?.[currentUserId];
@@ -50,6 +69,52 @@ const SuggestionCard = ({ suggestion, currentUserId, onVote, onAddComment, onDel
     if (window.confirm('Are you sure you want to delete this comment?')) {
       onDeleteComment(suggestion.id, commentId);
     }
+  };
+
+  const handleEditSuggestion = async () => {
+    const trimmedTitle = editTitle.trim();
+    if (trimmedTitle.length < 3) {
+      alert('Title must be at least 3 characters');
+      return;
+    }
+
+    try {
+      await onEditSuggestion(suggestion.id, trimmedTitle, editDescription.trim());
+      setIsEditingSuggestion(false);
+    } catch (error) {
+      console.error('Error editing suggestion:', error);
+      alert('Failed to edit suggestion. Please try again.');
+    }
+  };
+
+  const startEditingComment = (comment) => {
+    setEditingCommentId(comment.id);
+    setEditCommentText(comment.text);
+    setEditCommentType(comment.type);
+  };
+
+  const handleEditComment = async (commentId) => {
+    const trimmedText = editCommentText.trim();
+    if (trimmedText.length < 1) {
+      alert('Comment cannot be empty');
+      return;
+    }
+
+    try {
+      await onEditComment(suggestion.id, commentId, trimmedText, editCommentType);
+      setEditingCommentId(null);
+      setEditCommentText('');
+      setEditCommentType('neutral');
+    } catch (error) {
+      console.error('Error editing comment:', error);
+      alert('Failed to edit comment. Please try again.');
+    }
+  };
+
+  const cancelEditComment = () => {
+    setEditingCommentId(null);
+    setEditCommentText('');
+    setEditCommentType('neutral');
   };
 
   // Format timestamp
@@ -131,18 +196,87 @@ const SuggestionCard = ({ suggestion, currentUserId, onVote, onAddComment, onDel
 
         {/* Content */}
         <div className="flex-1">
-          <div className="flex items-start justify-between gap-2 mb-2">
-            <p className="text-purdue-black text-lg flex-1">{suggestion.text}</p>
-            <button
-              onClick={handleDeleteSuggestion}
-              className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors flex-shrink-0"
-              title="Delete suggestion"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
-            </button>
-          </div>
+          {isEditingSuggestion ? (
+            /* Edit mode */
+            <div className="space-y-3 mb-4 bg-purdue-athletic-gold/10 p-4 rounded-lg border-2 border-purdue-gold">
+              <div>
+                <label className="block text-sm font-bold text-purdue-black mb-1">
+                  Title <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold outline-none"
+                  maxLength={200}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-purdue-black mb-1">
+                  Description (Optional)
+                </label>
+                <textarea
+                  value={editDescription}
+                  onChange={(e) => setEditDescription(e.target.value)}
+                  className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold outline-none resize-none"
+                  rows={3}
+                  maxLength={1000}
+                />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleEditSuggestion}
+                  className="bg-purdue-black text-purdue-gold border-2 border-purdue-gold px-4 py-2 rounded-lg font-bold hover:bg-purdue-dark-gray transition"
+                >
+                  ✓ Save Changes
+                </button>
+                <button
+                  onClick={() => {
+                    setIsEditingSuggestion(false);
+                    setEditTitle(suggestion.title || suggestion.text || '');
+                    setEditDescription(suggestion.description || '');
+                  }}
+                  className="bg-white text-purdue-dark-gray border-2 border-purdue-gray px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            /* View mode */
+            <div className="mb-2">
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <h3 className="text-xl font-bold text-purdue-black flex-1">
+                  {suggestion.title || suggestion.text}
+                </h3>
+                <div className="flex gap-1 flex-shrink-0">
+                  <button
+                    onClick={() => setIsEditingSuggestion(true)}
+                    className="text-purdue-gold hover:text-purdue-black hover:bg-purdue-athletic-gold/30 p-2 rounded-lg transition-colors"
+                    title="Edit suggestion"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={handleDeleteSuggestion}
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                    title="Delete suggestion"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              {suggestion.description && (
+                <p className="text-purdue-dark-gray text-sm leading-relaxed mb-3 whitespace-pre-wrap">
+                  {suggestion.description}
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="flex items-center gap-3 text-sm text-purdue-gray mb-3">
             <span className="font-medium text-purdue-dark-gray">{suggestion.author}</span>
@@ -152,7 +286,7 @@ const SuggestionCard = ({ suggestion, currentUserId, onVote, onAddComment, onDel
             <span>{suggestion.upvotes} up, {suggestion.downvotes} down</span>
           </div>
 
-          {/* Comments toggle - improved button */}
+          {/* Comments toggle */}
           <button
             onClick={() => setShowComments(!showComments)}
             className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-purdue-athletic-gold/30 text-purdue-black rounded-lg transition-colors font-semibold text-sm border-2 border-purdue-gold"
@@ -185,29 +319,79 @@ const SuggestionCard = ({ suggestion, currentUserId, onVote, onAddComment, onDel
                         key={comment.id}
                         className={`p-3 rounded-lg border ${getCommentTypeStyles(comment.type)} relative group`}
                       >
-                        <div className="flex items-start justify-between gap-2 mb-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-sm text-purdue-black">
-                              {comment.author}
-                            </span>
-                            <span className={`text-xs px-2 py-0.5 rounded-full ${getCommentTypeBadge(comment.type)}`}>
-                              {comment.type}
-                            </span>
+                        {editingCommentId === comment.id ? (
+                          /* Edit comment mode */
+                          <div className="space-y-2">
+                            <textarea
+                              value={editCommentText}
+                              onChange={(e) => setEditCommentText(e.target.value)}
+                              className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold outline-none resize-none"
+                              rows={2}
+                              maxLength={500}
+                            />
+                            <div className="flex items-center gap-2">
+                              <select
+                                value={editCommentType}
+                                onChange={(e) => setEditCommentType(e.target.value)}
+                                className="px-2 py-1 border-2 border-purdue-gray rounded text-xs"
+                              >
+                                <option value="neutral">Neutral</option>
+                                <option value="pro">Pro</option>
+                                <option value="con">Con</option>
+                              </select>
+                              <button
+                                onClick={() => handleEditComment(comment.id)}
+                                className="bg-purdue-black text-purdue-gold border-2 border-purdue-gold px-3 py-1 rounded font-bold text-xs hover:bg-purdue-dark-gray"
+                              >
+                                ✓ Save
+                              </button>
+                              <button
+                                onClick={cancelEditComment}
+                                className="bg-white text-purdue-dark-gray border-2 border-purdue-gray px-3 py-1 rounded text-xs hover:bg-gray-50"
+                              >
+                                Cancel
+                              </button>
+                            </div>
                           </div>
-                          <button
-                            onClick={() => handleDeleteComment(comment.id)}
-                            className="text-red-600 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity"
-                            title="Delete comment"
-                          >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                          </button>
-                        </div>
-                        <p className="text-purdue-dark-gray text-sm">{comment.text}</p>
-                        <span className="text-xs text-purdue-gray mt-1 block">
-                          {formatDate(comment.timestamp)}
-                        </span>
+                        ) : (
+                          /* View comment mode */
+                          <>
+                            <div className="flex items-start justify-between gap-2 mb-1">
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-sm text-purdue-black">
+                                  {comment.author}
+                                </span>
+                                <span className={`text-xs px-2 py-0.5 rounded-full ${getCommentTypeBadge(comment.type)}`}>
+                                  {comment.type}
+                                </span>
+                              </div>
+                              <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button
+                                  onClick={() => startEditingComment(comment)}
+                                  className="text-purdue-gold hover:text-purdue-black"
+                                  title="Edit comment"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                  </svg>
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteComment(comment.id)}
+                                  className="text-red-600 hover:text-red-700"
+                                  title="Delete comment"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                            <p className="text-purdue-dark-gray text-sm whitespace-pre-wrap">{comment.text}</p>
+                            <span className="text-xs text-purdue-gray mt-1 block">
+                              {formatDate(comment.timestamp)}
+                            </span>
+                          </>
+                        )}
                       </div>
                     ))}
                 </div>

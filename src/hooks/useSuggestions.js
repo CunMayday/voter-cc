@@ -1,6 +1,6 @@
 /**
- * Version: 2
- * Added delete functionality for suggestions and comments
+ * Version: 3
+ * Added edit functionality and support for title/description in suggestions
  */
 import { useState, useEffect } from 'react';
 import { ref, onValue, push, set, get, remove } from 'firebase/database';
@@ -12,7 +12,8 @@ import { database } from '../config/firebase';
  * Data structure in Firebase:
  * /suggestions/{suggestionId}
  *   - id: string
- *   - text: string
+ *   - title: string
+ *   - description: string (optional)
  *   - author: string
  *   - timestamp: number
  *   - votes: { [userId]: 'up' | 'down' }
@@ -65,12 +66,13 @@ export const useSuggestions = () => {
   /**
    * Add a new suggestion
    */
-  const addSuggestion = async (text, author) => {
+  const addSuggestion = async (title, description, author) => {
     const suggestionsRef = ref(database, 'suggestions');
     const newSuggestionRef = push(suggestionsRef);
 
     await set(newSuggestionRef, {
-      text,
+      title,
+      description: description || '',
       author,
       timestamp: Date.now(),
       votes: {},
@@ -133,6 +135,35 @@ export const useSuggestions = () => {
     await remove(commentRef);
   };
 
+  /**
+   * Edit a suggestion
+   * @param {string} suggestionId
+   * @param {string} title
+   * @param {string} description
+   */
+  const editSuggestion = async (suggestionId, title, description) => {
+    const suggestionTitleRef = ref(database, `suggestions/${suggestionId}/title`);
+    const suggestionDescRef = ref(database, `suggestions/${suggestionId}/description`);
+
+    await set(suggestionTitleRef, title);
+    await set(suggestionDescRef, description || '');
+  };
+
+  /**
+   * Edit a comment
+   * @param {string} suggestionId
+   * @param {string} commentId
+   * @param {string} text
+   * @param {string} type
+   */
+  const editComment = async (suggestionId, commentId, text, type) => {
+    const commentTextRef = ref(database, `suggestions/${suggestionId}/comments/${commentId}/text`);
+    const commentTypeRef = ref(database, `suggestions/${suggestionId}/comments/${commentId}/type`);
+
+    await set(commentTextRef, text);
+    await set(commentTypeRef, type);
+  };
+
   return {
     suggestions,
     loading,
@@ -140,6 +171,8 @@ export const useSuggestions = () => {
     vote,
     addComment,
     deleteSuggestion,
-    deleteComment
+    deleteComment,
+    editSuggestion,
+    editComment
   };
 };

@@ -1,8 +1,8 @@
 /**
- * Version: 3
- * Improved color scheme and button visibility
+ * Version: 4
+ * Added sorting by score/newest and edit functionality
  */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import UserLogin from './components/UserLogin';
 import SuggestionForm from './components/SuggestionForm';
 import SuggestionCard from './components/SuggestionCard';
@@ -14,7 +14,31 @@ import { useSuggestions } from './hooks/useSuggestions';
  */
 function App() {
   const [user, setUser] = useState(null);
-  const { suggestions, loading, addSuggestion, vote, addComment, deleteSuggestion, deleteComment } = useSuggestions();
+  const [sortBy, setSortBy] = useState('score'); // 'score' or 'newest'
+
+  const {
+    suggestions,
+    loading,
+    addSuggestion,
+    vote,
+    addComment,
+    deleteSuggestion,
+    deleteComment,
+    editSuggestion,
+    editComment
+  } = useSuggestions();
+
+  // Sort suggestions based on selected option
+  const sortedSuggestions = useMemo(() => {
+    const sorted = [...suggestions];
+    if (sortBy === 'newest') {
+      sorted.sort((a, b) => b.timestamp - a.timestamp);
+    } else {
+      // Default: sort by score (already sorted in hook, but re-sort to be safe)
+      sorted.sort((a, b) => b.score - a.score);
+    }
+    return sorted;
+  }, [suggestions, sortBy]);
 
   // Check for existing user in session storage (per-tab)
   useEffect(() => {
@@ -76,7 +100,15 @@ function App() {
               <ul className="text-sm text-purdue-dark-gray space-y-1.5">
                 <li className="flex items-start gap-2">
                   <span className="text-purdue-gold font-bold">•</span>
+                  <span><strong>Add:</strong> Fill in the title (required) and optional description, then click "Add Suggestion"</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purdue-gold font-bold">•</span>
                   <span><strong>Vote:</strong> Click the up arrow (↑) to upvote or down arrow (↓) to downvote suggestions</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purdue-gold font-bold">•</span>
+                  <span><strong>Edit:</strong> Click the pencil icon to edit suggestions or hover over comments to edit/delete</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-purdue-gold font-bold">•</span>
@@ -84,15 +116,7 @@ function App() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-purdue-gold font-bold">•</span>
-                  <span><strong>Comment Types:</strong> Label your comments as Pro (positive), Con (negative), or Neutral</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purdue-gold font-bold">•</span>
-                  <span><strong>Delete:</strong> Click the trash icon to delete suggestions or hover over comments to delete them</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purdue-gold font-bold">•</span>
-                  <span><strong>Real-time:</strong> All changes sync instantly across all users</span>
+                  <span><strong>Sort:</strong> Use the dropdown below to sort by highest score or newest first</span>
                 </li>
               </ul>
             </div>
@@ -142,10 +166,30 @@ function App() {
               </div>
             ) : (
               <>
-                <div className="text-sm text-purdue-dark-gray mb-2 font-medium">
-                  {suggestions.length} suggestion{suggestions.length !== 1 ? 's' : ''} • Sorted by score (highest first)
+                {/* Sorting and count */}
+                <div className="flex items-center justify-between gap-4 flex-wrap bg-white rounded-lg shadow-md p-4 border-l-4 border-purdue-gold">
+                  <div className="text-sm text-purdue-dark-gray font-medium">
+                    {suggestions.length} suggestion{suggestions.length !== 1 ? 's' : ''}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <label htmlFor="sortBy" className="text-sm font-bold text-purdue-black">
+                      Sort by:
+                    </label>
+                    <select
+                      id="sortBy"
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="px-4 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none text-sm font-medium bg-white text-purdue-black"
+                    >
+                      <option value="score">Highest Score</option>
+                      <option value="newest">Newest First</option>
+                    </select>
+                  </div>
                 </div>
-                {suggestions.map((suggestion) => (
+
+                {/* Suggestions */}
+                {sortedSuggestions.map((suggestion) => (
                   <SuggestionCard
                     key={suggestion.id}
                     suggestion={suggestion}
@@ -156,6 +200,8 @@ function App() {
                     }
                     onDeleteSuggestion={deleteSuggestion}
                     onDeleteComment={deleteComment}
+                    onEditSuggestion={editSuggestion}
+                    onEditComment={editComment}
                   />
                 ))}
               </>
