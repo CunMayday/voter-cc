@@ -1,6 +1,6 @@
 /**
- * Version: 7
- * Adjusted button sizes and changed to Campus Gold
+ * Version: 8
+ * Switched buttons to Athletic Gold
  */
 import { useState } from 'react';
 
@@ -144,7 +144,7 @@ const SuggestionCard = ({
   const getCommentTypeBadge = (type) => {
     switch (type) {
       case 'pro':
-        return 'bg-purdue-gold text-purdue-black';
+        return 'bg-purdue-athletic-gold text-purdue-black';
       case 'con':
         return 'bg-purdue-dark-gray text-white';
       default:
@@ -161,8 +161,8 @@ const SuggestionCard = ({
             onClick={() => handleVote('up')}
             className={`p-2 rounded-lg transition-colors border-2 ${
               userVote === 'up'
-                ? 'bg-purdue-gold text-purdue-black border-purdue-gold'
-                : 'bg-white text-purdue-gray border-purdue-gray hover:bg-purdue-gold/20 hover:border-purdue-gold'
+                ? 'bg-purdue-athletic-gold text-purdue-black border-purdue-athletic-gold'
+                : 'bg-white text-purdue-gray border-purdue-gray hover:bg-purdue-athletic-gold/30 hover:border-purdue-athletic-gold'
             }`}
             title="Upvote"
           >
@@ -226,7 +226,7 @@ const SuggestionCard = ({
               <div className="flex gap-2">
                 <button
                   onClick={handleEditSuggestion}
-                  className="bg-purdue-gold text-purdue-black border-2 border-purdue-black px-4 py-2 rounded-lg font-bold hover:bg-purdue-black hover:text-purdue-gold transition"
+                  className="bg-purdue-athletic-gold text-purdue-black border-2 border-purdue-black px-4 py-2 rounded-lg font-bold hover:bg-purdue-black hover:text-purdue-gold transition"
                 >
                   ✓ Save Changes
                 </button>
@@ -289,7 +289,7 @@ const SuggestionCard = ({
           {/* Comments toggle */}
           <button
             onClick={() => setShowComments(!showComments)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-purdue-gold hover:bg-purdue-black text-purdue-black hover:text-purdue-gold rounded-lg transition-colors font-semibold text-sm border-2 border-purdue-black"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-purdue-athletic-gold hover:bg-purdue-black text-purdue-black hover:text-purdue-gold rounded-lg transition-colors font-semibold text-sm border-2 border-purdue-black"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -341,7 +341,7 @@ const SuggestionCard = ({
                               </select>
                               <button
                                 onClick={() => handleEditComment(comment.id)}
-                                className="bg-purdue-gold text-purdue-black border-2 border-purdue-black px-3 py-1 rounded font-bold text-xs hover:bg-purdue-black hover:text-purdue-gold"
+                                className="bg-purdue-athletic-gold text-purdue-black border-2 border-purdue-black px-3 py-1 rounded font-bold text-xs hover:bg-purdue-black hover:text-purdue-gold"
                               >
                                 ✓ Save
                               </button>
@@ -432,7 +432,7 @@ const SuggestionCard = ({
                   <button
                     type="submit"
                     disabled={isSubmittingComment || commentText.trim().length < 1}
-                    className="sm:flex-initial bg-purdue-gold hover:bg-purdue-black disabled:bg-purdue-gray disabled:cursor-not-allowed text-purdue-black hover:text-purdue-gold font-bold py-2 px-4 rounded-lg transition border-2 border-purdue-black text-sm"
+                    className="sm:flex-initial bg-purdue-athletic-gold hover:bg-purdue-black disabled:bg-purdue-gray disabled:cursor-not-allowed text-purdue-black hover:text-purdue-gold font-bold py-2 px-4 rounded-lg transition border-2 border-purdue-black text-sm"
                   >
                     {isSubmittingComment ? 'Submitting...' : '✓ Submit Comment'}
                   </button>

@@ -1,6 +1,6 @@
 /**
- * Version: 5
- * Redesigned with balanced Purdue colors - white background with gold accents
+ * Version: 6
+ * Switched to Athletic Gold for button
  */
 import { useState } from 'react';
 
@@ -71,7 +71,7 @@ const UserLogin = ({ onLogin }) => {
 
           <button
             type="submit"
-            className="w-full bg-purdue-gold hover:bg-purdue-black text-purdue-black hover:text-purdue-gold font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg border-2 border-purdue-black"
+            className="w-full bg-purdue-athletic-gold hover:bg-purdue-black text-purdue-black hover:text-purdue-gold font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg border-2 border-purdue-black"
           >
             Join Session
           </button>

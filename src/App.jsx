@@ -1,6 +1,6 @@
 /**
- * Version: 7
- * Removed instructions panel, adjusted button sizes and colors
+ * Version: 8
+ * Switched buttons to Athletic Gold instead of Campus Gold
  */
 import { useState, useEffect, useMemo } from 'react';
 import UserLogin from './components/UserLogin';
@@ -84,7 +84,7 @@ function App() {
               </div>
               <button
                 onClick={handleLogout}
-                className="text-purdue-gold hover:text-purdue-black text-sm font-bold px-4 py-2 rounded-lg bg-white hover:bg-purdue-gold hover:text-purdue-black transition border-2 border-purdue-gold"
+                className="text-purdue-athletic-gold hover:text-purdue-black text-sm font-bold px-4 py-2 rounded-lg bg-white hover:bg-purdue-athletic-gold transition border-2 border-purdue-athletic-gold"
               >
                 Change Name
               </button>
@@ -96,7 +96,7 @@ function App() {
         <div className="mb-6">
           <button
             onClick={() => setShowSuggestionForm(!showSuggestionForm)}
-            className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-purdue-gold hover:bg-purdue-black text-purdue-black hover:text-purdue-gold rounded-lg transition-colors font-bold text-lg border-2 border-purdue-black shadow-md"
+            className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-purdue-athletic-gold hover:bg-purdue-black text-purdue-black hover:text-purdue-gold rounded-lg transition-colors font-bold text-lg border-2 border-purdue-black shadow-md"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

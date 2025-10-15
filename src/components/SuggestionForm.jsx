@@ -1,6 +1,6 @@
 /**
- * Version: 6
- * Redesigned with balanced Purdue colors - white background with gold accents
+ * Version: 7
+ * Switched to Athletic Gold for buttons
  */
 import { useState } from 'react';
 
@@ -77,7 +77,7 @@ const SuggestionForm = ({ onSubmit, author }) => {
       <button
         type="submit"
         disabled={isSubmitting || title.trim().length < 3}
-        className="w-full bg-purdue-gold hover:bg-purdue-black disabled:bg-purdue-gray disabled:cursor-not-allowed text-purdue-black hover:text-purdue-gold font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg border-2 border-purdue-black"
+        className="w-full bg-purdue-athletic-gold hover:bg-purdue-black disabled:bg-purdue-gray disabled:cursor-not-allowed text-purdue-black hover:text-purdue-gold font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg border-2 border-purdue-black"
       >
         {isSubmitting ? 'Submitting...' : '✓ Submit Suggestion'}
       </button>
