@@ -1,6 +1,7 @@
 /**
- * Version: 5
- * Enhanced with more gold and black backgrounds per Purdue guidelines
+ * Version: 6
+ * Redesigned with balanced Purdue colors - white backgrounds with gold/black accents
+ * Added collapsible instructions and suggestion form
  */
 import { useState, useEffect, useMemo } from 'react';
 import UserLogin from './components/UserLogin';
@@ -15,6 +16,8 @@ import { useSuggestions } from './hooks/useSuggestions';
 function App() {
   const [user, setUser] = useState(null);
   const [sortBy, setSortBy] = useState('score'); // 'score' or 'newest'
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [showSuggestionForm, setShowSuggestionForm] = useState(false);
 
   const {
     suggestions,
@@ -69,73 +72,104 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purdue-black via-purdue-dark-gray to-purdue-black">
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
         {/* Header */}
         <header className="mb-8">
-          <div className="bg-purdue-black rounded-lg shadow-xl p-6 border-4 border-purdue-gold">
-            <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
+          <div className="bg-white rounded-lg shadow-lg p-6 border-t-4 border-purdue-gold">
+            <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-purdue-gold">Teaching Innovation Suggestions</h1>
-                <p className="text-purdue-athletic-gold mt-1">
-                  Welcome, <span className="font-bold text-white">{user.displayName}</span>
+                <h1 className="text-3xl font-bold text-purdue-black">Teaching Innovation Suggestions</h1>
+                <p className="text-purdue-dark-gray mt-1">
+                  Welcome, <span className="font-bold text-purdue-gold">{user.displayName}</span>
                 </p>
               </div>
               <button
                 onClick={handleLogout}
-                className="text-purdue-gold hover:text-white text-sm font-bold px-4 py-2 rounded-lg bg-purdue-dark-gray hover:bg-purdue-gold hover:text-purdue-black transition border-2 border-purdue-gold"
+                className="text-purdue-gold hover:text-purdue-black text-sm font-bold px-4 py-2 rounded-lg bg-white hover:bg-purdue-athletic-gold transition border-2 border-purdue-gold"
               >
                 Change Name
               </button>
             </div>
 
-            {/* Instructions */}
-            <div className="bg-purdue-gold rounded-lg p-4 mt-4 shadow-lg">
-              <h2 className="font-bold text-purdue-black mb-3 flex items-center gap-2 text-lg">
-                <svg className="w-6 h-6 text-purdue-black" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            {/* Instructions - Collapsible */}
+            <div className="mt-4">
+              <button
+                onClick={() => setShowInstructions(!showInstructions)}
+                className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-purdue-athletic-gold hover:bg-purdue-gold text-purdue-black rounded-lg transition-colors font-semibold border-2 border-purdue-gold"
+              >
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                  </svg>
+                  <span>How to Use This System</span>
+                </div>
+                <svg
+                  className={`w-5 h-5 transition-transform ${showInstructions ? 'rotate-180' : ''}`}
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
-                How to Use This System
-              </h2>
-              <ul className="text-sm text-purdue-black space-y-1.5">
-                <li className="flex items-start gap-2">
-                  <span className="text-purdue-black font-bold text-lg">•</span>
-                  <span><strong>Add:</strong> Fill in the title (required) and optional description, then click "Add Suggestion"</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purdue-black font-bold text-lg">•</span>
-                  <span><strong>Vote:</strong> Click the up arrow (↑) to upvote or down arrow (↓) to downvote suggestions</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purdue-black font-bold text-lg">•</span>
-                  <span><strong>Edit:</strong> Click the pencil icon to edit suggestions or hover over comments to edit/delete</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purdue-black font-bold text-lg">•</span>
-                  <span><strong>Comments:</strong> Click "Show Comments" button to expand and view/add comments</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purdue-black font-bold text-lg">•</span>
-                  <span><strong>Sort:</strong> Use the dropdown below to sort by highest score or newest first</span>
-                </li>
-              </ul>
+              </button>
+
+              {showInstructions && (
+                <div className="mt-2 bg-white rounded-lg p-4 border-2 border-purdue-athletic-gold">
+                  <ul className="text-sm text-purdue-dark-gray space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-purdue-gold font-bold">•</span>
+                      <span><strong className="text-purdue-black">Add:</strong> Click "Add Suggestion" below to submit a new idea with title and optional description</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purdue-gold font-bold">•</span>
+                      <span><strong className="text-purdue-black">Vote:</strong> Click the up arrow (↑) to upvote or down arrow (↓) to downvote suggestions</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purdue-gold font-bold">•</span>
+                      <span><strong className="text-purdue-black">Edit:</strong> Click the pencil icon to edit suggestions or hover over comments to edit/delete</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purdue-gold font-bold">•</span>
+                      <span><strong className="text-purdue-black">Comments:</strong> Click "Show Comments" button to expand and view/add comments</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purdue-gold font-bold">•</span>
+                      <span><strong className="text-purdue-black">Sort:</strong> Use the dropdown below to sort by highest score or newest first</span>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </header>
 
-        {/* Add suggestion form */}
+        {/* Add suggestion form - Collapsible */}
         <div className="mb-6">
-          <SuggestionForm
-            onSubmit={addSuggestion}
-            author={user.displayName}
-          />
+          <button
+            onClick={() => setShowSuggestionForm(!showSuggestionForm)}
+            className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-purdue-gold hover:bg-purdue-black text-purdue-black hover:text-purdue-gold rounded-lg transition-colors font-bold text-lg border-2 border-purdue-black shadow-md"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            <span>{showSuggestionForm ? 'Hide Form' : 'Add Suggestion'}</span>
+          </button>
+
+          {showSuggestionForm && (
+            <div className="mt-4">
+              <SuggestionForm
+                onSubmit={addSuggestion}
+                author={user.displayName}
+              />
+            </div>
+          )}
         </div>
 
         {/* Loading state */}
         {loading && (
-          <div className="text-center py-12 bg-purdue-athletic-gold rounded-lg">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purdue-black border-t-transparent"></div>
-            <p className="mt-4 text-purdue-black font-bold">Loading suggestions...</p>
+          <div className="text-center py-12 bg-white rounded-lg shadow-md">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purdue-gold border-t-transparent"></div>
+            <p className="mt-4 text-purdue-dark-gray font-semibold">Loading suggestions...</p>
           </div>
         )}
 
@@ -143,9 +177,9 @@ function App() {
         {!loading && (
           <div className="space-y-4">
             {suggestions.length === 0 ? (
-              <div className="bg-purdue-athletic-gold rounded-lg shadow-xl p-12 text-center border-4 border-purdue-gold">
+              <div className="bg-white rounded-lg shadow-md p-12 text-center border-l-4 border-purdue-gold">
                 <svg
-                  className="w-16 h-16 mx-auto text-purdue-black mb-4"
+                  className="w-16 h-16 mx-auto text-purdue-gold mb-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -167,20 +201,20 @@ function App() {
             ) : (
               <>
                 {/* Sorting and count */}
-                <div className="flex items-center justify-between gap-4 flex-wrap bg-purdue-athletic-gold rounded-lg shadow-xl p-4 border-4 border-purdue-gold">
+                <div className="flex items-center justify-between gap-4 flex-wrap bg-white rounded-lg shadow-md p-4 border-l-4 border-purdue-gold">
                   <div className="text-sm text-purdue-black font-bold">
                     {suggestions.length} suggestion{suggestions.length !== 1 ? 's' : ''}
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <label htmlFor="sortBy" className="text-sm font-bold text-purdue-black">
+                    <label htmlFor="sortBy" className="text-sm font-bold text-purdue-dark-gray">
                       Sort by:
                     </label>
                     <select
                       id="sortBy"
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
-                      className="px-4 py-2 border-2 border-purdue-black rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none text-sm font-bold bg-white text-purdue-black"
+                      className="px-4 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none text-sm font-semibold bg-white text-purdue-black"
                     >
                       <option value="score">Highest Score</option>
                       <option value="newest">Newest First</option>
@@ -210,8 +244,8 @@ function App() {
         )}
 
         {/* Footer */}
-        <footer className="mt-12 text-center text-sm bg-purdue-black rounded-lg shadow-xl p-4 border-2 border-purdue-gold">
-          <p className="text-purdue-gold font-bold">All changes sync in real-time across all users</p>
+        <footer className="mt-12 text-center text-sm bg-white rounded-lg shadow-md p-4 border-t-2 border-purdue-gold">
+          <p className="text-purdue-dark-gray">All changes sync in real-time across all users</p>
         </footer>
       </div>
     </div>

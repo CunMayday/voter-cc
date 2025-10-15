@@ -1,6 +1,6 @@
 /**
- * Version: 5
- * Enhanced with gold and black backgrounds per Purdue guidelines
+ * Version: 6
+ * Redesigned with balanced Purdue colors and Purdue-compliant pro/con color scheme
  */
 import { useState } from 'react';
 
@@ -129,13 +129,13 @@ const SuggestionCard = ({
     return `${Math.floor(diffInSeconds / 86400)}d ago`;
   };
 
-  // Get comment type styling
+  // Get comment type styling - Using Purdue colors
   const getCommentTypeStyles = (type) => {
     switch (type) {
       case 'pro':
-        return 'bg-green-50 border-green-200';
+        return 'bg-purdue-athletic-gold/20 border-purdue-gold';
       case 'con':
-        return 'bg-red-50 border-red-200';
+        return 'bg-purdue-dark-gray/10 border-purdue-dark-gray';
       default:
         return 'bg-gray-50 border-purdue-gray';
     }
@@ -144,16 +144,16 @@ const SuggestionCard = ({
   const getCommentTypeBadge = (type) => {
     switch (type) {
       case 'pro':
-        return 'bg-green-100 text-green-800';
+        return 'bg-purdue-gold text-purdue-black';
       case 'con':
-        return 'bg-red-100 text-red-800';
+        return 'bg-purdue-dark-gray text-white';
       default:
         return 'bg-purdue-gray/30 text-purdue-dark-gray';
     }
   };
 
   return (
-    <div className="bg-purdue-athletic-gold rounded-lg shadow-xl p-6 hover:shadow-2xl transition-shadow border-4 border-purdue-gold">
+    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border-l-4 border-purdue-gold">
       <div className="flex gap-4">
         {/* Voting buttons */}
         <div className="flex flex-col items-center gap-1">
@@ -161,8 +161,8 @@ const SuggestionCard = ({
             onClick={() => handleVote('up')}
             className={`p-2 rounded-lg transition-colors border-2 ${
               userVote === 'up'
-                ? 'bg-purdue-black text-purdue-gold border-purdue-gold'
-                : 'bg-white text-purdue-dark-gray border-purdue-gray hover:bg-purdue-athletic-gold/30 hover:border-purdue-gold'
+                ? 'bg-purdue-gold text-purdue-black border-purdue-gold'
+                : 'bg-white text-purdue-gray border-purdue-gray hover:bg-purdue-athletic-gold/30 hover:border-purdue-gold'
             }`}
             title="Upvote"
           >
@@ -172,9 +172,9 @@ const SuggestionCard = ({
           </button>
 
           <span className={`font-bold text-lg ${
-            suggestion.score > 0 ? 'text-green-600' :
-            suggestion.score < 0 ? 'text-red-600' :
-            'text-purdue-dark-gray'
+            suggestion.score > 0 ? 'text-purdue-gold' :
+            suggestion.score < 0 ? 'text-purdue-dark-gray' :
+            'text-purdue-gray'
           }`}>
             {suggestion.score}
           </span>
@@ -183,8 +183,8 @@ const SuggestionCard = ({
             onClick={() => handleVote('down')}
             className={`p-2 rounded-lg transition-colors border-2 ${
               userVote === 'down'
-                ? 'bg-red-600 text-white border-red-700'
-                : 'bg-white text-purdue-dark-gray border-purdue-gray hover:bg-red-50 hover:border-red-300 hover:text-red-600'
+                ? 'bg-purdue-dark-gray text-white border-purdue-dark-gray'
+                : 'bg-white text-purdue-gray border-purdue-gray hover:bg-purdue-dark-gray/10 hover:border-purdue-dark-gray'
             }`}
             title="Downvote"
           >
@@ -198,16 +198,16 @@ const SuggestionCard = ({
         <div className="flex-1">
           {isEditingSuggestion ? (
             /* Edit mode */
-            <div className="space-y-3 mb-4 bg-white p-4 rounded-lg border-2 border-purdue-black shadow-lg">
+            <div className="space-y-3 mb-4 bg-gray-50 p-4 rounded-lg border-2 border-purdue-gold">
               <div>
                 <label className="block text-sm font-bold text-purdue-black mb-1">
-                  Title <span className="text-red-600">*</span>
+                  Title <span className="text-purdue-gold">*</span>
                 </label>
                 <input
                   type="text"
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
-                  className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold outline-none"
+                  className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold outline-none bg-white"
                   maxLength={200}
                 />
               </div>
@@ -218,7 +218,7 @@ const SuggestionCard = ({
                 <textarea
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
-                  className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold outline-none resize-none"
+                  className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold outline-none resize-none bg-white"
                   rows={3}
                   maxLength={1000}
                 />
@@ -226,7 +226,7 @@ const SuggestionCard = ({
               <div className="flex gap-2">
                 <button
                   onClick={handleEditSuggestion}
-                  className="bg-purdue-black text-purdue-gold border-2 border-purdue-gold px-4 py-2 rounded-lg font-bold hover:bg-purdue-dark-gray transition"
+                  className="bg-purdue-gold text-purdue-black border-2 border-purdue-black px-4 py-2 rounded-lg font-bold hover:bg-purdue-black hover:text-purdue-gold transition"
                 >
                   ✓ Save Changes
                 </button>
@@ -236,7 +236,7 @@ const SuggestionCard = ({
                     setEditTitle(suggestion.title || suggestion.text || '');
                     setEditDescription(suggestion.description || '');
                   }}
-                  className="bg-white text-purdue-dark-gray border-2 border-purdue-gray px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition"
+                  className="bg-white text-purdue-dark-gray border-2 border-purdue-gray px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition"
                 >
                   Cancel
                 </button>
@@ -261,7 +261,7 @@ const SuggestionCard = ({
                   </button>
                   <button
                     onClick={handleDeleteSuggestion}
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                    className="text-purdue-dark-gray hover:text-purdue-black hover:bg-purdue-dark-gray/10 p-2 rounded-lg transition-colors"
                     title="Delete suggestion"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -289,7 +289,7 @@ const SuggestionCard = ({
           {/* Comments toggle */}
           <button
             onClick={() => setShowComments(!showComments)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-purdue-athletic-gold/30 text-purdue-black rounded-lg transition-colors font-semibold text-sm border-2 border-purdue-gold"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-purdue-athletic-gold hover:bg-purdue-gold text-purdue-black rounded-lg transition-colors font-semibold text-sm border-2 border-purdue-gold"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -308,7 +308,7 @@ const SuggestionCard = ({
 
           {/* Comments section */}
           {showComments && (
-            <div className="mt-4 space-y-3 pl-4 border-l-2 border-purdue-athletic-gold">
+            <div className="mt-4 space-y-3 pl-4 border-l-4 border-purdue-gold">
               {/* Existing comments */}
               {suggestion.comments.length > 0 && (
                 <div className="space-y-2">
@@ -325,7 +325,7 @@ const SuggestionCard = ({
                             <textarea
                               value={editCommentText}
                               onChange={(e) => setEditCommentText(e.target.value)}
-                              className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold outline-none resize-none"
+                              className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold outline-none resize-none bg-white"
                               rows={2}
                               maxLength={500}
                             />
@@ -333,7 +333,7 @@ const SuggestionCard = ({
                               <select
                                 value={editCommentType}
                                 onChange={(e) => setEditCommentType(e.target.value)}
-                                className="px-2 py-1 border-2 border-purdue-gray rounded text-xs"
+                                className="px-2 py-1 border-2 border-purdue-gray rounded text-xs bg-white"
                               >
                                 <option value="neutral">Neutral</option>
                                 <option value="pro">Pro</option>
@@ -341,13 +341,13 @@ const SuggestionCard = ({
                               </select>
                               <button
                                 onClick={() => handleEditComment(comment.id)}
-                                className="bg-purdue-black text-purdue-gold border-2 border-purdue-gold px-3 py-1 rounded font-bold text-xs hover:bg-purdue-dark-gray"
+                                className="bg-purdue-gold text-purdue-black border-2 border-purdue-black px-3 py-1 rounded font-bold text-xs hover:bg-purdue-black hover:text-purdue-gold"
                               >
                                 ✓ Save
                               </button>
                               <button
                                 onClick={cancelEditComment}
-                                className="bg-white text-purdue-dark-gray border-2 border-purdue-gray px-3 py-1 rounded text-xs hover:bg-gray-50"
+                                className="bg-white text-purdue-dark-gray border-2 border-purdue-gray px-3 py-1 rounded text-xs hover:bg-gray-100"
                               >
                                 Cancel
                               </button>
@@ -368,7 +368,7 @@ const SuggestionCard = ({
                               <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
                                   onClick={() => startEditingComment(comment)}
-                                  className="text-purdue-gold hover:text-purdue-black"
+                                  className="text-purdue-gold hover:text-purdue-black p-1"
                                   title="Edit comment"
                                 >
                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -377,7 +377,7 @@ const SuggestionCard = ({
                                 </button>
                                 <button
                                   onClick={() => handleDeleteComment(comment.id)}
-                                  className="text-red-600 hover:text-red-700"
+                                  className="text-purdue-dark-gray hover:text-purdue-black p-1"
                                   title="Delete comment"
                                 >
                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -398,14 +398,14 @@ const SuggestionCard = ({
               )}
 
               {/* Add comment form */}
-              <form onSubmit={handleAddComment} className="space-y-3 bg-white p-4 rounded-lg border-2 border-purdue-black shadow-lg">
+              <form onSubmit={handleAddComment} className="space-y-3 bg-gray-50 p-4 rounded-lg border-2 border-purdue-gold">
                 <label className="block">
                   <span className="text-sm font-semibold text-purdue-black mb-1 block">Write your comment:</span>
                   <textarea
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
                     placeholder="Type your comment here..."
-                    className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none resize-none"
+                    className="w-full px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none resize-none bg-white"
                     rows={3}
                     disabled={isSubmittingComment}
                     maxLength={500}
@@ -419,7 +419,7 @@ const SuggestionCard = ({
                       <select
                         value={commentType}
                         onChange={(e) => setCommentType(e.target.value)}
-                        className="w-full sm:w-auto px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none text-sm font-medium"
+                        className="w-full sm:w-auto px-3 py-2 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none text-sm font-medium bg-white"
                         disabled={isSubmittingComment}
                       >
                         <option value="neutral">Neutral</option>
@@ -432,7 +432,7 @@ const SuggestionCard = ({
                   <button
                     type="submit"
                     disabled={isSubmittingComment || commentText.trim().length < 1}
-                    className="flex-1 sm:flex-initial bg-purdue-black hover:bg-purdue-dark-gray disabled:bg-purdue-gray disabled:cursor-not-allowed text-purdue-gold font-bold py-3 px-6 rounded-lg transition border-2 border-purdue-gold shadow-md hover:shadow-lg text-base"
+                    className="flex-1 sm:flex-initial bg-purdue-gold hover:bg-purdue-black disabled:bg-purdue-gray disabled:cursor-not-allowed text-purdue-black hover:text-purdue-gold font-bold py-3 px-6 rounded-lg transition border-2 border-purdue-black shadow-md hover:shadow-lg text-base"
                   >
                     {isSubmittingComment ? 'Submitting...' : '✓ Submit Comment'}
                   </button>
