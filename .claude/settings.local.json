@@ -8,7 +8,8 @@
       "Bash(npm install:*)",
       "Bash(npx tailwindcss init:*)",
       "Bash(npm run build)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(npm run dev)"
     ],
     "deny": [],
     "ask": []
