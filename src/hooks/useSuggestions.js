@@ -1,5 +1,9 @@
+/**
+ * Version: 2
+ * Added delete functionality for suggestions and comments
+ */
 import { useState, useEffect } from 'react';
-import { ref, onValue, push, set, get } from 'firebase/database';
+import { ref, onValue, push, set, get, remove } from 'firebase/database';
 import { database } from '../config/firebase';
 
 /**
@@ -110,11 +114,32 @@ export const useSuggestions = () => {
     });
   };
 
+  /**
+   * Delete a suggestion
+   * @param {string} suggestionId
+   */
+  const deleteSuggestion = async (suggestionId) => {
+    const suggestionRef = ref(database, `suggestions/${suggestionId}`);
+    await remove(suggestionRef);
+  };
+
+  /**
+   * Delete a comment from a suggestion
+   * @param {string} suggestionId
+   * @param {string} commentId
+   */
+  const deleteComment = async (suggestionId, commentId) => {
+    const commentRef = ref(database, `suggestions/${suggestionId}/comments/${commentId}`);
+    await remove(commentRef);
+  };
+
   return {
     suggestions,
     loading,
     addSuggestion,
     vote,
-    addComment
+    addComment,
+    deleteSuggestion,
+    deleteComment
   };
 };

@@ -1,3 +1,7 @@
+/**
+ * Version: 2
+ * Updated with Purdue colors
+ */
 import { useState } from 'react';
 
 /**
@@ -29,26 +33,26 @@ const SuggestionForm = ({ onSubmit, author }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6">
+    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 border-l-4 border-purdue-gold">
       <div className="flex flex-col sm:flex-row gap-3">
         <input
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Share your idea or suggestion..."
-          className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+          className="flex-1 px-4 py-3 border border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-transparent outline-none transition"
           disabled={isSubmitting}
           maxLength={500}
         />
         <button
           type="submit"
           disabled={isSubmitting || text.trim().length < 3}
-          className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg whitespace-nowrap"
+          className="bg-purdue-gold hover:bg-purdue-gold/90 disabled:bg-purdue-gray disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg whitespace-nowrap"
         >
           {isSubmitting ? 'Submitting...' : 'Add Suggestion'}
         </button>
       </div>
-      <p className="mt-2 text-sm text-gray-500">
+      <p className="mt-2 text-sm text-purdue-gray">
         {text.length}/500 characters
       </p>
     </form>

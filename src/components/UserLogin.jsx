@@ -1,3 +1,7 @@
+/**
+ * Version: 2
+ * Updated with Purdue colors and new title
+ */
 import { useState } from 'react';
 
 /**
@@ -29,13 +33,13 @@ const UserLogin = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full">
+    <div className="min-h-screen bg-gradient-to-br from-purdue-athletic-gold/20 to-purdue-gold/30 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full border-t-4 border-purdue-gold">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Team Voting
+          <h1 className="text-4xl font-bold text-purdue-black mb-2">
+            Teaching Innovation Suggestions
           </h1>
-          <p className="text-gray-600">
+          <p className="text-purdue-dark-gray">
             Share ideas, vote, and collaborate
           </p>
         </div>
@@ -44,7 +48,7 @@ const UserLogin = ({ onLogin }) => {
           <div>
             <label
               htmlFor="displayName"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-purdue-dark-gray mb-2"
             >
               Enter your display name
             </label>
@@ -56,7 +60,7 @@ const UserLogin = ({ onLogin }) => {
                 setDisplayName(e.target.value);
                 setError('');
               }}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              className="w-full px-4 py-3 border border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-transparent outline-none transition"
               placeholder="Your Name"
               autoFocus
             />
@@ -67,13 +71,13 @@ const UserLogin = ({ onLogin }) => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+            className="w-full bg-purdue-gold hover:bg-purdue-gold/90 text-white font-medium py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
           >
             Join Session
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
+        <div className="mt-6 text-center text-sm text-purdue-gray">
           <p>Your votes and suggestions will be visible to the team</p>
         </div>
       </div>
