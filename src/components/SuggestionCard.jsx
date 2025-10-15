@@ -1,6 +1,6 @@
 /**
- * Version: 6
- * Redesigned with balanced Purdue colors and Purdue-compliant pro/con color scheme
+ * Version: 7
+ * Adjusted button sizes and changed to Campus Gold
  */
 import { useState } from 'react';
 
@@ -162,7 +162,7 @@ const SuggestionCard = ({
             className={`p-2 rounded-lg transition-colors border-2 ${
               userVote === 'up'
                 ? 'bg-purdue-gold text-purdue-black border-purdue-gold'
-                : 'bg-white text-purdue-gray border-purdue-gray hover:bg-purdue-athletic-gold/30 hover:border-purdue-gold'
+                : 'bg-white text-purdue-gray border-purdue-gray hover:bg-purdue-gold/20 hover:border-purdue-gold'
             }`}
             title="Upvote"
           >
@@ -289,7 +289,7 @@ const SuggestionCard = ({
           {/* Comments toggle */}
           <button
             onClick={() => setShowComments(!showComments)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-purdue-athletic-gold hover:bg-purdue-gold text-purdue-black rounded-lg transition-colors font-semibold text-sm border-2 border-purdue-gold"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-purdue-gold hover:bg-purdue-black text-purdue-black hover:text-purdue-gold rounded-lg transition-colors font-semibold text-sm border-2 border-purdue-black"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -412,7 +412,7 @@ const SuggestionCard = ({
                   />
                 </label>
 
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
                   <div className="flex-shrink-0">
                     <label className="block">
                       <span className="text-sm font-semibold text-purdue-black mb-1 block">Type:</span>
@@ -432,7 +432,7 @@ const SuggestionCard = ({
                   <button
                     type="submit"
                     disabled={isSubmittingComment || commentText.trim().length < 1}
-                    className="flex-1 sm:flex-initial bg-purdue-gold hover:bg-purdue-black disabled:bg-purdue-gray disabled:cursor-not-allowed text-purdue-black hover:text-purdue-gold font-bold py-3 px-6 rounded-lg transition border-2 border-purdue-black shadow-md hover:shadow-lg text-base"
+                    className="sm:flex-initial bg-purdue-gold hover:bg-purdue-black disabled:bg-purdue-gray disabled:cursor-not-allowed text-purdue-black hover:text-purdue-gold font-bold py-2 px-4 rounded-lg transition border-2 border-purdue-black text-sm"
                   >
                     {isSubmittingComment ? 'Submitting...' : '✓ Submit Comment'}
                   </button>

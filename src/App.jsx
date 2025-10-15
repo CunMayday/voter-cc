@@ -1,7 +1,6 @@
 /**
- * Version: 6
- * Redesigned with balanced Purdue colors - white backgrounds with gold/black accents
- * Added collapsible instructions and suggestion form
+ * Version: 7
+ * Removed instructions panel, adjusted button sizes and colors
  */
 import { useState, useEffect, useMemo } from 'react';
 import UserLogin from './components/UserLogin';
@@ -16,7 +15,6 @@ import { useSuggestions } from './hooks/useSuggestions';
 function App() {
   const [user, setUser] = useState(null);
   const [sortBy, setSortBy] = useState('score'); // 'score' or 'newest'
-  const [showInstructions, setShowInstructions] = useState(false);
   const [showSuggestionForm, setShowSuggestionForm] = useState(false);
 
   const {
@@ -86,59 +84,10 @@ function App() {
               </div>
               <button
                 onClick={handleLogout}
-                className="text-purdue-gold hover:text-purdue-black text-sm font-bold px-4 py-2 rounded-lg bg-white hover:bg-purdue-athletic-gold transition border-2 border-purdue-gold"
+                className="text-purdue-gold hover:text-purdue-black text-sm font-bold px-4 py-2 rounded-lg bg-white hover:bg-purdue-gold hover:text-purdue-black transition border-2 border-purdue-gold"
               >
                 Change Name
               </button>
-            </div>
-
-            {/* Instructions - Collapsible */}
-            <div className="mt-4">
-              <button
-                onClick={() => setShowInstructions(!showInstructions)}
-                className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-purdue-athletic-gold hover:bg-purdue-gold text-purdue-black rounded-lg transition-colors font-semibold border-2 border-purdue-gold"
-              >
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                  </svg>
-                  <span>How to Use This System</span>
-                </div>
-                <svg
-                  className={`w-5 h-5 transition-transform ${showInstructions ? 'rotate-180' : ''}`}
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </button>
-
-              {showInstructions && (
-                <div className="mt-2 bg-white rounded-lg p-4 border-2 border-purdue-athletic-gold">
-                  <ul className="text-sm text-purdue-dark-gray space-y-2">
-                    <li className="flex items-start gap-2">
-                      <span className="text-purdue-gold font-bold">•</span>
-                      <span><strong className="text-purdue-black">Add:</strong> Click "Add Suggestion" below to submit a new idea with title and optional description</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-purdue-gold font-bold">•</span>
-                      <span><strong className="text-purdue-black">Vote:</strong> Click the up arrow (↑) to upvote or down arrow (↓) to downvote suggestions</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-purdue-gold font-bold">•</span>
-                      <span><strong className="text-purdue-black">Edit:</strong> Click the pencil icon to edit suggestions or hover over comments to edit/delete</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-purdue-gold font-bold">•</span>
-                      <span><strong className="text-purdue-black">Comments:</strong> Click "Show Comments" button to expand and view/add comments</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-purdue-gold font-bold">•</span>
-                      <span><strong className="text-purdue-black">Sort:</strong> Use the dropdown below to sort by highest score or newest first</span>
-                    </li>
-                  </ul>
-                </div>
-              )}
             </div>
           </div>
         </header>
