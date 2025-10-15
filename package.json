@@ -1,0 +1,44 @@
+{
+  "name": "voter-cc",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Real-time team voting and suggestion platform built with React, Vite, and Firebase",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CunMayday/voter-cc.git"
+  },
+  "keywords": [
+    "voting",
+    "real-time",
+    "collaboration",
+    "firebase",
+    "react",
+    "vite",
+    "tailwind"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CunMayday/voter-cc/issues"
+  },
+  "homepage": "https://github.com/CunMayday/voter-cc#readme",
+  "dependencies": {
+    "firebase": "^12.4.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.14",
+    "vite": "^7.1.10"
+  }
+}
