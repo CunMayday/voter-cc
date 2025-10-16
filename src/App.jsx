@@ -7,6 +7,7 @@ import UserLogin from './components/UserLogin';
 import SuggestionForm from './components/SuggestionForm';
 import SuggestionCard from './components/SuggestionCard';
 import { useSuggestions } from './hooks/useSuggestions';
+import { exportSuggestions } from './utils/exportUtils';
 
 /**
  * Main App Component
@@ -16,6 +17,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [sortBy, setSortBy] = useState('score'); // 'score' or 'newest'
   const [showSuggestionForm, setShowSuggestionForm] = useState(false);
+  const [exportFormat, setExportFormat] = useState('markdown'); // 'markdown' or 'html'
 
   const {
     suggestions,
@@ -64,6 +66,10 @@ function App() {
     sessionStorage.removeItem('voter_user');
   };
 
+  const handleExport = () => {
+    exportSuggestions(suggestions, exportFormat);
+  };
+
   // If user hasn't logged in, show login screen
   if (!user) {
     return <UserLogin onLogin={handleLogin} />;
@@ -82,12 +88,36 @@ function App() {
                   Welcome, <span className="font-bold text-purdue-gold">{user.displayName}</span>
                 </p>
               </div>
-              <button
-                onClick={handleLogout}
-                className="text-purdue-athletic-gold hover:text-purdue-black text-sm font-bold px-4 py-2 rounded-lg bg-white hover:bg-purdue-athletic-gold transition border-2 border-purdue-athletic-gold"
-              >
-                Change Name
-              </button>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <select
+                    value={exportFormat}
+                    onChange={(e) => setExportFormat(e.target.value)}
+                    disabled={suggestions.length === 0}
+                    className="px-3 py-2 border-2 border-purdue-athletic-gold rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none text-sm font-semibold bg-white text-purdue-black disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <option value="markdown">Markdown</option>
+                    <option value="html">HTML</option>
+                  </select>
+                  <button
+                    onClick={handleExport}
+                    disabled={suggestions.length === 0}
+                    className="flex items-center gap-2 text-purdue-athletic-gold hover:text-purdue-black text-sm font-bold px-4 py-2 rounded-lg bg-white hover:bg-purdue-athletic-gold transition border-2 border-purdue-athletic-gold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-purdue-athletic-gold"
+                    title={suggestions.length === 0 ? "No suggestions to export" : `Export as ${exportFormat === 'html' ? 'HTML' : 'Markdown'} Report`}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Export Report
+                  </button>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="text-purdue-athletic-gold hover:text-purdue-black text-sm font-bold px-4 py-2 rounded-lg bg-white hover:bg-purdue-athletic-gold transition border-2 border-purdue-athletic-gold"
+                >
+                  Change Name
+                </button>
+              </div>
             </div>
           </div>
         </header>
