@@ -9,7 +9,10 @@
       "Bash(npx tailwindcss init:*)",
       "Bash(npm run build)",
       "Bash(dir:*)",
-      "Bash(npm run dev)"
+      "Bash(npm run dev)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
