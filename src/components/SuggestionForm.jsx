@@ -1,6 +1,6 @@
 /**
- * Version: 7
- * Switched to Athletic Gold for buttons
+ * Version: 8
+ * Added validation error feedback and ARIA attributes for ADA compliance
  */
 import { useState } from 'react';
 
@@ -12,15 +12,18 @@ const SuggestionForm = ({ onSubmit, author }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationError, setValidationError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const trimmedTitle = title.trim();
     if (trimmedTitle.length < 3) {
+      setValidationError('Title must be at least 3 characters long');
       return;
     }
 
+    setValidationError('');
     setIsSubmitting(true);
     try {
       await onSubmit(trimmedTitle, description.trim(), author);
@@ -44,12 +47,26 @@ const SuggestionForm = ({ onSubmit, author }) => {
           type="text"
           id="title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => {
+            setTitle(e.target.value);
+            if (validationError) setValidationError('');
+          }}
           placeholder="Brief title for your suggestion..."
-          className="w-full px-4 py-3 border-2 border-purdue-gray rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none transition font-medium bg-white text-purdue-black"
+          className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-purdue-gold focus:border-purdue-gold outline-none transition font-medium bg-white text-purdue-black ${
+            validationError ? 'border-red-500' : 'border-purdue-gray'
+          }`}
           disabled={isSubmitting}
           maxLength={200}
+          required
+          aria-required="true"
+          aria-invalid={validationError ? 'true' : 'false'}
+          aria-describedby={validationError ? 'title-error' : undefined}
         />
+        {validationError && (
+          <p id="title-error" className="mt-1 text-sm text-red-600 font-medium" role="alert">
+            {validationError}
+          </p>
+        )}
         <p className="mt-1 text-xs text-purdue-gray font-medium">
           {title.length}/200 characters
         </p>

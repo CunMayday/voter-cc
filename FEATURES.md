@@ -204,22 +204,38 @@ suggestions.sort((a, b) => b.score - a.score)
 
 ---
 
-### 10. Accessibility Features
+### 10. Accessibility Features (ADA Compliant)
+
+**Form Accessibility**:
+- Required fields marked with `required` attribute
+- ARIA attributes: `aria-required`, `aria-invalid`, `aria-describedby`
+- Validation errors announced with `role="alert"`
+- Clear error messages displayed visually
+- Proper label associations for all inputs
+
+**Button Accessibility**:
+- All icon-only buttons have `aria-label` attributes
+- Screen readers announce button purpose clearly
+- Visual tooltips via `title` attribute for mouse users
+- Includes: vote buttons, edit/delete controls
 
 **Keyboard Navigation**:
 - Tab through all interactive elements
 - Enter to submit forms
 - Focus indicators visible
+- No keyboard traps
 
-**ARIA Labels**:
-- Meaningful button titles
+**ARIA Support**:
+- Meaningful aria-label on icon buttons
 - Form labels properly associated
-- Screen reader friendly
+- Error messages linked with aria-describedby
+- Screen reader friendly throughout
 
 **Semantic HTML**:
 - Proper heading hierarchy
 - Form elements with labels
 - List structures for suggestions
+- Role attributes where appropriate
 
 ---
 
