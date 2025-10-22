@@ -1,6 +1,6 @@
 /**
- * Version: 8
- * Switched buttons to Athletic Gold
+ * Version: 9
+ * Added aria-label attributes to all icon-only buttons for ADA compliance and fixed prop mutation
  */
 import { useState } from 'react';
 
@@ -165,6 +165,7 @@ const SuggestionCard = ({
                 : 'bg-white text-purdue-gray border-purdue-gray hover:bg-purdue-athletic-gold/30 hover:border-purdue-athletic-gold'
             }`}
             title="Upvote"
+            aria-label="Upvote this suggestion"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
@@ -187,6 +188,7 @@ const SuggestionCard = ({
                 : 'bg-white text-purdue-gray border-purdue-gray hover:bg-purdue-dark-gray/10 hover:border-purdue-dark-gray'
             }`}
             title="Downvote"
+            aria-label="Downvote this suggestion"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -254,6 +256,7 @@ const SuggestionCard = ({
                     onClick={() => setIsEditingSuggestion(true)}
                     className="text-purdue-gold hover:text-purdue-black hover:bg-purdue-athletic-gold/30 p-2 rounded-lg transition-colors"
                     title="Edit suggestion"
+                    aria-label="Edit this suggestion"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -263,6 +266,7 @@ const SuggestionCard = ({
                     onClick={handleDeleteSuggestion}
                     className="text-purdue-dark-gray hover:text-purdue-black hover:bg-purdue-dark-gray/10 p-2 rounded-lg transition-colors"
                     title="Delete suggestion"
+                    aria-label="Delete this suggestion"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -312,7 +316,7 @@ const SuggestionCard = ({
               {/* Existing comments */}
               {suggestion.comments.length > 0 && (
                 <div className="space-y-2">
-                  {suggestion.comments
+                  {[...suggestion.comments]
                     .sort((a, b) => b.timestamp - a.timestamp)
                     .map((comment) => (
                       <div
@@ -370,6 +374,7 @@ const SuggestionCard = ({
                                   onClick={() => startEditingComment(comment)}
                                   className="text-purdue-gold hover:text-purdue-black p-1"
                                   title="Edit comment"
+                                  aria-label="Edit this comment"
                                 >
                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -379,6 +384,7 @@ const SuggestionCard = ({
                                   onClick={() => handleDeleteComment(comment.id)}
                                   className="text-purdue-dark-gray hover:text-purdue-black p-1"
                                   title="Delete comment"
+                                  aria-label="Delete this comment"
                                 >
                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
