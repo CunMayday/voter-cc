@@ -1,6 +1,6 @@
 /**
- * Version: 8
- * Switched buttons to Athletic Gold instead of Campus Gold
+ * Version: 9
+ * Integrated advanced-mode fencing game board while retaining suggestion workflow.
  */
 import { useState, useEffect, useMemo } from 'react';
 import UserLogin from './components/UserLogin';
@@ -8,6 +8,7 @@ import SuggestionForm from './components/SuggestionForm';
 import SuggestionCard from './components/SuggestionCard';
 import { useSuggestions } from './hooks/useSuggestions';
 import { exportSuggestions } from './utils/exportUtils';
+import GameBoard from './components/GameBoard';
 
 /**
  * Main App Component
@@ -78,6 +79,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        <GameBoard />
         {/* Header */}
         <header className="mb-8">
           <div className="bg-white rounded-lg shadow-lg p-6 border-t-4 border-purdue-gold">
